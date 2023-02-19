@@ -1,7 +1,7 @@
 // get the input and output elements
 const commandInput = document.getElementById('command');
 const output = document.querySelector('.output');
-let vIgri = false;
+let vLabirintu = false;
 
 // greet user and print instructions
 echo ('pozdravljen v labirintu. to je (beta) igra v spletnem terminalu. ca igre se nisi igral ali pa si samo pozabil kako uporabljati tole zadevo napisi pomoc. za zacetek igre napisi zacni, ko pa bos igro hotel koncati napisi koncaj. veselo izgubljanje v labirintu!');
@@ -42,101 +42,20 @@ function help() {
 // function to process the command and return the output
 function processCommand(command) {
   if (command === 'zacni') {
-    vIgri = true;
+    vLabirintu = true;
     labirintTajnica('zacetek')
   } else if (command === 'koncaj') {
-    vIgri = false;
+    vLabirintu = false;
   } else if (command === 'clear') {
     clear();
   } else if (command === 'pomoc') {
     help();
-  } else if (vIgri) {
+  } else if (vLabirintu) {
     labirintTajnica(command);
   } else if (command === 'time') {
     const now = new Date();
     echo ('Trenutno smo: ' + now.toLocaleTimeString());
   } else {
     echo ('za tole pa nimam se ifa!');
-  }
-}
-
-
-// nastavimo obliko labirinta. 0 predstavlja prehod, 1 zid, 2 zacetek in 3 konec
-let labirint = [['2001', '1100', '1101'], ['0101', '0011', '0000'], ['0011', '1110', '0131']];
-let lokacija = [0, 0];
-let VrataPrihoda = 0;
-
-// glavna funkcija za igro - LABIRINT
-function labirintTajnica (text) {
-  if (text == 'zacetek') {
-    navodila();
-    labirintTajnica('ls');
-  } else if (text.split(' ')[0] == 'cd') { 
-    premakniSe (text.split(' ')[1]);
-  } else if (text == 'ls') {
-    poglejOkoli();
-  } else {
-    echo ('za tole pa se nimam ifa!')
-  }
-}
-
-function navodila () {
-  echo ("tole bodo navodila"); //FIXME
-}
-
-function cilj () { //FIXME
-  echo ('uspelo ti je!');
-}
-
-function smer (arg) {
-  if (arg == 0) {
-    return "sever";
-  } else if (arg == 1) {
-    return "vzhod";
-  } else if (arg == 2) {
-    return "jug";
-  } else if (arg == 3) {
-    return "zahod";
-  }
-}
-
-function prihod (vrata) {
-  if (vrata == 0) {
-    return 2;
-  } else if (vrata == 1) {
-    return 3;
-  } else if (vrata == 2) {
-    return 0;
-  } else if (vrata == 3) {
-    return 1;
-  }
-}
-
-function poglejOkoli () {
-  echo ('ozrl si se okoli sebe in zagledal ...')
-  // console.log("lokacija: ", lokacija, " vrataPrihoda: ", VrataPrihoda, " labirint[lokacija[0]][lokacija[1]]: ", labirint[lokacija[0]][lokacija[1]]);
-  for (let i = 0; i < 4; i++) {
-    if (labirint[lokacija[0]][lokacija[1]][i] == '0' || labirint[lokacija[0]][lokacija[1]][i] == '3') { 
-      if (VrataPrihoda == i) {
-        echo ('- na '+smer(i)+'u so vrata (st. '+(i)+'), skozi katera pa si tudi prisel');
-      } else {
-        echo ('- na '+smer(i)+'u so vrata (st. '+(i)+')')
-      }
-    }
-  }
-}
-
-function premakniSe (vrata) {
-  vrata = parseInt(vrata);
-  let pomoc = [[-1, 0], [0, 1], [1, 0], [0, -1]];
-  if (labirint[lokacija[0]][lokacija[1]][vrata] == '0') {
-    // console.log("vrata", vrata, "prihod(vrata)", prihod(vrata));
-    VrataPrihoda = prihod(vrata);
-    lokacija[0] += pomoc[vrata][0];
-    lokacija[1] += pomoc[vrata][1];
-  } else if (labirint[lokacija[0]][lokacija[1]][vrata-1] == '3') {
-    cilj();
-  } else {
-    echo ("au, tole je bolelo. drugic preveri kje je zid in kje ne!");
   }
 }
