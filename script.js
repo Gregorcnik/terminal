@@ -18,9 +18,6 @@ commandInput.addEventListener('keydown', function(event) {
 
     // process the command and print the output to the terminal
     processCommand(command);
-
-    // scroll to the bottom of the terminal
-    output.scrollTop = output.scrollHeight;
   }
 });
 
@@ -29,6 +26,9 @@ function echo(text) {
   const outputLine = document.createElement('div');
   outputLine.innerText = text;
   output.appendChild(outputLine);
+
+  // scroll to the bottom of the terminal
+  output.scrollTop = output.scrollHeight;
 }
 
 function clear() {
@@ -88,14 +88,26 @@ function cilj () { //FIXME
   echo ('uspelo ti je!')
 }
 
+function smer (arg) {
+  if (arg == 0) {
+    return "sever";
+  } else if (arg == 1) {
+    return "vzhod";
+  } else if (arg == 2) {
+    return "jug";
+  } else if (arg == 3) {
+    return "zahod";
+  }
+}
+
 function poglejOkoli () {
   echo ('ozrl si se okoli sebe in zagledal ...')
   for (let i = 0; i < 4; i++) {
     if (labirint[lokacija[0]][lokacija[1]][i] == '0' || labirint[lokacija[0]][lokacija[1]][i] == '3') {
       if (VrataPrihoda-1 == i) {
-        echo ('- vrata st. '+(i+1)+', skozi katera pa si tudi prisel');
+        echo ('- na '+smer(i)+'u so vrata (st. '+(i)+'), skozi katera pa si tudi prisel');
       } else {
-        echo ("- vrata st. "+(i+1))
+        echo ('- na '+smer(i)+'u so vrata (st. '+(i)+')')
       }
     }
   }
@@ -104,8 +116,9 @@ function poglejOkoli () {
 function premakniSe (vrata) {
   vrata = parseInt(vrata);
   let pomoc = [[-1, 0], [0, 1], [1, 0], [0, -1]];
-  if (labirint[lokacija[0]][lokacija[1]][vrata-1] == '0') {
+  if (labirint[lokacija[0]][lokacija[1]][vrata] == '0') {
     VrataPrihoda = (vrata-3)%4;
+    console.log(VrataPrihoda);
     lokacija[0] += pomoc[vrata-1][0];
     lokacija[1] += pomoc[vrata-1][1];
   } else if (labirint[lokacija[0]][lokacija[1]][vrata-1] == '3') {
