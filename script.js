@@ -64,7 +64,7 @@ function processCommand(command) {
 // nastavimo obliko labirinta. 0 predstavlja prehod, 1 zid, 2 zacetek in 3 konec
 let labirint = [['2001', '1100', '1101'], ['0101', '0011', '0000'], ['0011', '1110', '0131']];
 let lokacija = [0, 0];
-let VrataPrihoda = 1
+let VrataPrihoda = 0;
 
 // glavna funkcija za igro - LABIRINT
 function labirintTajnica (text) {
@@ -85,7 +85,7 @@ function navodila () {
 }
 
 function cilj () { //FIXME
-  echo ('uspelo ti je!')
+  echo ('uspelo ti je!');
 }
 
 function smer (arg) {
@@ -100,11 +100,24 @@ function smer (arg) {
   }
 }
 
+function prihod (vrata) {
+  if (vrata == 0) {
+    return 2;
+  } else if (vrata == 1) {
+    return 3;
+  } else if (vrata == 2) {
+    return 0;
+  } else if (vrata == 3) {
+    return 1;
+  }
+}
+
 function poglejOkoli () {
   echo ('ozrl si se okoli sebe in zagledal ...')
+  // console.log("lokacija: ", lokacija, " vrataPrihoda: ", VrataPrihoda, " labirint[lokacija[0]][lokacija[1]]: ", labirint[lokacija[0]][lokacija[1]]);
   for (let i = 0; i < 4; i++) {
-    if (labirint[lokacija[0]][lokacija[1]][i] == '0' || labirint[lokacija[0]][lokacija[1]][i] == '3') {
-      if (VrataPrihoda-1 == i) {
+    if (labirint[lokacija[0]][lokacija[1]][i] == '0' || labirint[lokacija[0]][lokacija[1]][i] == '3') { 
+      if (VrataPrihoda == i) {
         echo ('- na '+smer(i)+'u so vrata (st. '+(i)+'), skozi katera pa si tudi prisel');
       } else {
         echo ('- na '+smer(i)+'u so vrata (st. '+(i)+')')
@@ -117,10 +130,10 @@ function premakniSe (vrata) {
   vrata = parseInt(vrata);
   let pomoc = [[-1, 0], [0, 1], [1, 0], [0, -1]];
   if (labirint[lokacija[0]][lokacija[1]][vrata] == '0') {
-    VrataPrihoda = (vrata-3)%4;
-    console.log(VrataPrihoda);
-    lokacija[0] += pomoc[vrata-1][0];
-    lokacija[1] += pomoc[vrata-1][1];
+    // console.log("vrata", vrata, "prihod(vrata)", prihod(vrata));
+    VrataPrihoda = prihod(vrata);
+    lokacija[0] += pomoc[vrata][0];
+    lokacija[1] += pomoc[vrata][1];
   } else if (labirint[lokacija[0]][lokacija[1]][vrata-1] == '3') {
     cilj();
   } else {
