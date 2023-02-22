@@ -4,11 +4,16 @@ class Terminal {
     this.terminalObject = terminalObject;
     this.commandInput = terminalObject.querySelector('#command');
     this.output = terminalObject.querySelector('.output');
+    this.commandsHistory = [];
+    this.cas = -1;
   }
 
-  echo(text) {
+  echo(text, attr = []) {
     // process the command and print the output to the terminal
     const outputLine = document.createElement('div');
+    if (attr != []) {
+      outputLine.setAttribute(attr[0], attr[1]);
+    }
     outputLine.innerText = text;
     this.output.appendChild(outputLine);
 
@@ -18,6 +23,8 @@ class Terminal {
 
   clear() {
     this.output.innerHTML = '';
+    this.commandsHistory = [];
+    this.cas = -1;
   }
 
   handleInput(event) {
@@ -25,12 +32,46 @@ class Terminal {
       const command = this.commandInput.value;
       this.commandInput.value = '';
 
+      this.commandsHistory.push(command);
+      this.cas = this.commandsHistory.length-1;
+      console.log(this.commandsHistory);
+
       // print the command to the output
-      this.echo('> '+command);
+      this.echo('> '+command, ["user", ""]);
 
       // process the command and print the output to the terminal
       processCommand(command);
+    } else if (event.key === "ArrowUp") {
+      if (this.cas >= 0) {
+        const command = this.commandInput.value;
+        this.commandInput.value = this.commandsHistory[this.cas];
+        this.cas--;
+      }
+    } else if (event.key === "ArrowDown") {
+      if (this.cas < this.commandsHistory.length-1) {
+        this.cas++;
+        const command = this.commandInput.value;
+        this.commandInput.value = this.commandsHistory[this.cas];
+      }
     }
+  }
+
+  undo () {
+    let c  = this.output.children;
+    let i = c.length-1;
+    while (i >= 0 && c[i].hasAttribute("user") === false) {
+      console.log(i);
+      i--;
+    }
+    if (i === -1) {
+      return false;
+    }
+    for (let j = c.length-1; j >= i; j--) {
+      this.output.removeChild(c[j]);
+    }
+    this.commandsHistory = [];
+    this.cas = -1;
+    return true;
   }
 }
 

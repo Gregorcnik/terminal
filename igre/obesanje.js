@@ -25,19 +25,19 @@ class Obesanje {
     if(text == "pomoc") { 
       this.navodila();
     } 
-    else if(zacetek && text == "1") { 
+    else if(this.zacetek == true && text == "1") { 
       this.stIgracev = 1;
       this.beseda = this.besede[this.getRandomInt(this.besede.length)];
       this.setup();
       this.zacetek = false;
-      this.izpisi();;
+      this.izpisi();
     } 
-    else if (text.split(" ")[0] == "2" && text.split(" ").length == 2) {
+    else if (text.split(" ")[0] == "2" && text.split(" ").length == 2 && this.zacetek == true) {
       this.stIgracev = 2;
       this.beseda = text.split(" ")[1];
       this.setup();
       this.zacetek = false;
-      this.t.clear();
+      this.t.undo();
       this.izpisi();
     }
     else if(text.length == 1 && this.zacetek == false) {
@@ -83,7 +83,7 @@ class Obesanje {
       this.t.echo ("Bravo, ugotovil si besedo!");
       vTeku = "";
     } else if (this.stPoskusov == 0) {
-      this.t.echo ("Au, tole pa se ni koncalo najbolje zate!");
+      this.t.echo ("Au, tole pa se ni koncalo najbolje zate! Beseda je bila "+this.beseda+".");
       vTeku = "";
     }
   }
