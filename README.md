@@ -1,2 +1,2 @@
 # Terminal
-Zaenkrat ga lahko uporabljaš za igranje labirinta
+Zaenkrat ga lahko uporabljaš za igranje labirinta in vislic
