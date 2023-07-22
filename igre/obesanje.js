@@ -4,7 +4,7 @@ class Obesanje {
   constructor(t) {
     this.t = t;
     // define all posible words for 1 player game
-    this.besede = ["banana", "aeroplan", "letalo", "balon", "koscica", "zmagovalec", "ples", "nakovalo", "odsev", "horizont", "orpedolo", "psihiater", "nekljucje", "podezelje", "pandemija", "kolokvij", "kronologija", "monarhija", "plazilec", "limuzina", "koprena", "tancica", "baldahin", "nakljucje", "mrzlica", "neskoncnost", "kraljica", "pralnica", "mamica", "preverjenost", "kvaliteta", "postrv", "trepalnica", "popravljanje", "kositer"];
+    this.besede = ["banana", "aeroplan", "letalo", "balon", "koscica", "zmagovalec", "ples", "nakovalo", "odsev", "horizont", "orpedolog", "psihiater", "nakljucje", "podezelje", "pandemija", "kolokvij", "kronologija", "monarhija", "plazilec", "limuzina", "koprena", "tancica", "baldahin", "mrzlica", "neskoncnost", "kraljica", "pralnica", "mamica", "preverjenost", "kvaliteta", "postrv", "trepalnica", "popravljanje", "kositer"];
     // define word for guessing
     this.beseda = "";
     // define how many players will play game
